@@ -1,0 +1,61 @@
+output:
+  - platform: gpio
+    pin: ${relay_1_pin}
+    id: relay_1
+  - platform: gpio
+    pin: ${relay_2_pin}
+    id: relay_2
+  - platform: gpio
+    pin: ${relay_3_pin}
+    id: relay_3
+
+button:
+  - platform: output
+    output: relay_1
+    id: button_1
+    disabled_by_default: true
+    duration: 1000ms
+    name: "Open / Auto Close"
+    icon: "mdi:gate"
+  - platform: output
+    output: relay_2
+    id: button_2
+    disabled_by_default: true
+    duration: 3000ms # Autoclose override time
+    name: "Open / Manual Close"
+    icon: "mdi:gate"
+  - platform: output
+    output: relay_3
+    id: button_3
+    duration: 1000ms
+    name: "Pedestrian"
+    icon: "mdi:walk"
+
+switch:
+  - platform: gpio
+    pin:
+      number: ${relay_4_pin}
+    id: relay_4
+    icon: "mdi:lock"
+    name: "Lock"
+
+cover:
+  - platform: template
+    name: "Gate"
+    device_class: gate
+    id: gate
+    lambda: |-
+      if (id(status).state == "Open") {
+        return COVER_OPEN;
+      } else if (id(status).state == "Closed") {
+        return COVER_CLOSED;
+      } else {
+        return {};
+      }
+    open_action:
+      - button.press: button_1
+    close_action:
+      - button.press: button_1
+    stop_action:
+      - button.press: button_1
+    optimistic: false
