@@ -15,14 +15,14 @@ button:
     id: button_1
     disabled_by_default: true
     duration: 1000ms
-    name: "Open / Auto Close"
+    name: "Open ⁄ Auto Close"
     icon: "mdi:gate"
   - platform: output
     output: relay_2
     id: button_2
     disabled_by_default: true
     duration: 3000ms # Autoclose override time
-    name: "Open / Manual Close"
+    name: "Open ⁄ Manual Close"
     icon: "mdi:gate"
   - platform: output
     output: relay_3
